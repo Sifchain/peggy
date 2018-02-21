@@ -5,16 +5,16 @@ import "./Valset.sol";
 
 contract Peggy is Valset {
 
-  mapping (bytes => CosmosERC20) cosmosTokenAddress;
+  mapping (bytes32 => CosmosERC20) cosmosTokenAddress;
 
-  event Lock(bytes to, uint64 value, address token);
+  event Lock(bytes32 to, uint64 value, address token);
   event Unlock(address to, uint64 value, address token);
 
   function Peggy(address[] initAddress, uint64[] initPowers) public Valset(initAddress, initPowers) {
 
   }
 
-  function getCosmosTokenAddress(bytes name) internal constant returns (address) {
+  function getCosmosTokenAddress(bytes32 name) internal constant returns (address) {
     return cosmosTokenAddress[name];
   }
 
@@ -22,11 +22,11 @@ contract Peggy is Valset {
 
   /// Locks received funds to the consensus of the peg zone
   /*
-   * @param to          bytes representation of destination address
+   * @param to          bytes32 representation of destination address
    * @param value       value of transference
    * @param token       token address in origin chain (0x0 if Ethereum, Cosmos for other values)
   */
-  function lock(bytes to, uint64 value, address token) external payable returns (bool) {
+  function lock(bytes32 to, uint64 value, address token) external payable returns (bool) {
     if (token == address(0)) {
       assert(msg.value == value);
     } else {
@@ -38,10 +38,10 @@ contract Peggy is Valset {
 
   /// Unlocks Ethereum tokens according to the information from the pegzone. Called by the relayers.
   /*
-   * @param to          bytes representation of destination address
+   * @param to          bytes32 representation of destination address
    * @param value       value of transference
    * @param token       token address in origin chain (0x0 if Ethereum, Cosmos for other values)
-   * @param chain       bytes respresentation of the destination chain (not used in MVP, for incentivization of relayers)
+   * @param chain       bytes32 respresentation of the destination chain (not used in MVP, for incentivization of relayers)
    * @param idxs        indexes of each validator
    * @param v           recovery id
    * @param r           output of ECDSA signature
