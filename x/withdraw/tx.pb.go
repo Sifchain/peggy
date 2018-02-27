@@ -8,10 +8,10 @@ It is generated from these files:
 	tx.proto
 
 It has these top-level messages:
-	WitnessTx
+	WithdrawTx
 	LockMsg
 */
-package types
+package withdraw
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -28,82 +28,82 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type WitnessTx struct {
+type WithdrawTx struct {
 	Signature []byte `protobuf:"bytes,1,opt,name=signature,proto3" json:"signature,omitempty"`
 	Sequence  uint64 `protobuf:"varint,2,opt,name=sequence" json:"sequence,omitempty"`
 	// Types that are valid to be assigned to Tx:
-	//	*WitnessTx_Lock
-	Tx isWitnessTx_Tx `protobuf_oneof:"tx"`
+	//	*WithdrawTx_Lock
+	Tx isWithdrawTx_Tx `protobuf_oneof:"tx"`
 }
 
-func (m *WitnessTx) Reset()                    { *m = WitnessTx{} }
-func (m *WitnessTx) String() string            { return proto.CompactTextString(m) }
-func (*WitnessTx) ProtoMessage()               {}
-func (*WitnessTx) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (m *WithdrawTx) Reset()                    { *m = WithdrawTx{} }
+func (m *WithdrawTx) String() string            { return proto.CompactTextString(m) }
+func (*WithdrawTx) ProtoMessage()               {}
+func (*WithdrawTx) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
-type isWitnessTx_Tx interface {
-	isWitnessTx_Tx()
+type isWithdrawTx_Tx interface {
+	isWithdrawTx_Tx()
 }
 
-type WitnessTx_Lock struct {
+type WithdrawTx_Lock struct {
 	Lock *LockMsg `protobuf:"bytes,3,opt,name=lock,oneof"`
 }
 
-func (*WitnessTx_Lock) isWitnessTx_Tx() {}
+func (*WithdrawTx_Lock) isWithdrawTx_Tx() {}
 
-func (m *WitnessTx) GetTx() isWitnessTx_Tx {
+func (m *WithdrawTx) GetTx() isWithdrawTx_Tx {
 	if m != nil {
 		return m.Tx
 	}
 	return nil
 }
 
-func (m *WitnessTx) GetSignature() []byte {
+func (m *WithdrawTx) GetSignature() []byte {
 	if m != nil {
 		return m.Signature
 	}
 	return nil
 }
 
-func (m *WitnessTx) GetSequence() uint64 {
+func (m *WithdrawTx) GetSequence() uint64 {
 	if m != nil {
 		return m.Sequence
 	}
 	return 0
 }
 
-func (m *WitnessTx) GetLock() *LockMsg {
-	if x, ok := m.GetTx().(*WitnessTx_Lock); ok {
+func (m *WithdrawTx) GetLock() *LockMsg {
+	if x, ok := m.GetTx().(*WithdrawTx_Lock); ok {
 		return x.Lock
 	}
 	return nil
 }
 
 // XXX_OneofFuncs is for the internal use of the proto package.
-func (*WitnessTx) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _WitnessTx_OneofMarshaler, _WitnessTx_OneofUnmarshaler, _WitnessTx_OneofSizer, []interface{}{
-		(*WitnessTx_Lock)(nil),
+func (*WithdrawTx) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _WithdrawTx_OneofMarshaler, _WithdrawTx_OneofUnmarshaler, _WithdrawTx_OneofSizer, []interface{}{
+		(*WithdrawTx_Lock)(nil),
 	}
 }
 
-func _WitnessTx_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
-	m := msg.(*WitnessTx)
+func _WithdrawTx_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*WithdrawTx)
 	// tx
 	switch x := m.Tx.(type) {
-	case *WitnessTx_Lock:
+	case *WithdrawTx_Lock:
 		b.EncodeVarint(3<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.Lock); err != nil {
 			return err
 		}
 	case nil:
 	default:
-		return fmt.Errorf("WitnessTx.Tx has unexpected type %T", x)
+		return fmt.Errorf("WithdrawTx.Tx has unexpected type %T", x)
 	}
 	return nil
 }
 
-func _WitnessTx_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
-	m := msg.(*WitnessTx)
+func _WithdrawTx_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*WithdrawTx)
 	switch tag {
 	case 3: // tx.lock
 		if wire != proto.WireBytes {
@@ -111,18 +111,18 @@ func _WitnessTx_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buff
 		}
 		msg := new(LockMsg)
 		err := b.DecodeMessage(msg)
-		m.Tx = &WitnessTx_Lock{msg}
+		m.Tx = &WithdrawTx_Lock{msg}
 		return true, err
 	default:
 		return false, nil
 	}
 }
 
-func _WitnessTx_OneofSizer(msg proto.Message) (n int) {
-	m := msg.(*WitnessTx)
+func _WithdrawTx_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*WithdrawTx)
 	// tx
 	switch x := m.Tx.(type) {
-	case *WitnessTx_Lock:
+	case *WithdrawTx_Lock:
 		s := proto.Size(x.Lock)
 		n += proto.SizeVarint(3<<3 | proto.WireBytes)
 		n += proto.SizeVarint(uint64(s))
@@ -175,7 +175,7 @@ func (m *LockMsg) GetNonce() uint64 {
 }
 
 func init() {
-	proto.RegisterType((*WitnessTx)(nil), "WitnessTx")
+	proto.RegisterType((*WithdrawTx)(nil), "WithdrawTx")
 	proto.RegisterType((*LockMsg)(nil), "LockMsg")
 }
 

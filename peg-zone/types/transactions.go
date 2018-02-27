@@ -18,7 +18,7 @@ const (
 type WitnessTx struct {
 	Amount      int64
 	Destination crypto.Address
-    Token       crypto.Address
+	Token       crypto.Address
 }
 
 var _ sdk.Msg = (*WitnessTx)(nil)
@@ -32,8 +32,8 @@ func (wtx WitnessTx) Type() string {
 }
 
 type WitnessData struct {
-    Witnesses   []crypto.Address
-    Amount      int64
+	Witnesses   []crypto.Address
+	Amount      int64
 	Destination crypto.Address
 	Credited    bool
 }
