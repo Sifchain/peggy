@@ -29,9 +29,10 @@ type WithdrawObject struct {
 	WithdrawData
 }
 
-func (w WithdrawTxMapper) NewWithdrawData(ctx sdk.Context, wdtx WithdrawTx) *WithdrawObject {
+func (w WithdrawTxMapper) NewWithdrawObject(ctx sdk.Context, wdtx WithdrawTx) *WithdrawObject {
 	return &WithdrawObject{
 		tx: wdtx,
+		// sets and mapping
 	}
 }
 

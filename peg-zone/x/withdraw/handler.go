@@ -1,11 +1,12 @@
 package withdraw
 
 import (
+	"fmt"
 	"reflect"
 	"strconv"
-	"fmt"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/spf13/viper"
+	crypto "github.com/tendermint/go-crypto"
 )
 
 func NewHandler(with WithdrawTxMapper) sdk.Handler {
@@ -23,7 +24,7 @@ func NewHandler(with WithdrawTxMapper) sdk.Handler {
 // TODO
 
 func buildMsg(from crypto.Address, to crypto.Address, pegCoin string, amount int64) (sdk.Msg, error) {
-	strAmount = strconv.Itoa(amount);
+	strAmount = strconv.Itoa(amount)
 	strCoin := fmt.Sprintf("%s%s", strAmount, pegCoin)
 	coin, err := sdk.ParseCoin(strCoin)
 	if err != nil {
@@ -35,9 +36,6 @@ func buildMsg(from crypto.Address, to crypto.Address, pegCoin string, amount int
 	return msg, err
 }
 
-func buildTx(from crypto.Address, msg) sdk.StdTx {
-	msg, err := sdk.buildMsg()
-}
 //
 func handleWithdrawTx(ctx sdk.Context, with WithdrawTxMapper) sdk.Result {
 
