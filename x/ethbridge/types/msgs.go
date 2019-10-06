@@ -47,7 +47,7 @@ func (msg MsgCreateEthBridgeClaim) ValidateBasic() sdk.Error {
 	}
 
 	if strings.ToLower(msg.Symbol) == "eth" && msg.TokenContractAddress != NewEthereumAddress("0x0000000000000000000000000000000000000000") {
-		return ErrInvalidEthSymbol(DefaultCodespace)
+		return ErrInvalidEthAddress(DefaultCodespace)
 	}
 
 	return nil

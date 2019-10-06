@@ -31,8 +31,3 @@ func ErrInvalidEthAddress(codespace sdk.CodespaceType) sdk.Error {
 func ErrJSONMarshalling(codespace sdk.CodespaceType) sdk.Error {
 	return sdk.NewError(codespace, CodeErrJSONMarshalling, "error marshalling JSON for this claim")
 }
-
-// ErrInvalidEthSymbol implements sdk.Error.
-func ErrInvalidEthSymbol(codespace sdk.CodespaceType) sdk.Error {
-	return sdk.NewError(codespace, CodeInvalidEthSymbol, "invalid symbol provided, symbol \"eth\" must have null address set as token contract address")
-}
