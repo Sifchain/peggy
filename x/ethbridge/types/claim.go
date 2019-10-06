@@ -13,21 +13,29 @@ import (
 
 // EthBridgeClaim defines a claim for an ERC20 token
 type EthBridgeClaim struct {
-	Nonce            int             `json:"nonce" yaml:"nonce"`
-	EthereumSender   EthereumAddress `json:"ethereum_sender" yaml:"ethereum_sender"`
-	CosmosReceiver   sdk.AccAddress  `json:"cosmos_receiver" yaml:"cosmos_receiver"`
-	ValidatorAddress sdk.ValAddress  `json:"validator_address" yaml:"validator_address"`
-	Amount           sdk.Coins       `json:"amount" yaml:"amount"`
+	EthereumChainID       int             `json:"ethereum_chain_id" yaml:"ethereum_chain_id"`
+	BridgeContractAddress EthereumAddress `json:"bridge_contract_address" yaml:"bridge_contract_address"`
+	Nonce                 int             `json:"nonce" yaml:"nonce"`
+	Symbol                string          `json:"symbol" yaml:"symbol"`
+	TokenContractAddress  EthereumAddress `json:"token_contract_address" yaml:"token_contract_address"`
+	EthereumSender        EthereumAddress `json:"ethereum_sender" yaml:"ethereum_sender"`
+	CosmosReceiver        sdk.AccAddress  `json:"cosmos_receiver" yaml:"cosmos_receiver"`
+	ValidatorAddress      sdk.ValAddress  `json:"validator_address" yaml:"validator_address"`
+	Amount                sdk.Coins       `json:"amount" yaml:"amount"`
 }
 
 // NewEthBridgeClaim is a constructor function for NewEthBridgeClaim
-func NewEthBridgeClaim(nonce int, ethereumSender EthereumAddress, cosmosReceiver sdk.AccAddress, validator sdk.ValAddress, amount sdk.Coins) EthBridgeClaim {
+func NewEthBridgeClaim(ethereumChainID int, bridgeContract EthereumAddress, nonce int, symbol string, tokenContact EthereumAddress, ethereumSender EthereumAddress, cosmosReceiver sdk.AccAddress, validator sdk.ValAddress, amount sdk.Coins) EthBridgeClaim {
 	return EthBridgeClaim{
-		Nonce:            nonce,
-		EthereumSender:   ethereumSender,
-		CosmosReceiver:   cosmosReceiver,
-		ValidatorAddress: validator,
-		Amount:           amount,
+		EthereumChainID:       ethereumChainID,
+		BridgeContractAddress: bridgeContract,
+		Nonce:                 nonce,
+		Symbol:                symbol,
+		TokenContractAddress:  tokenContact,
+		EthereumSender:        ethereumSender,
+		CosmosReceiver:        cosmosReceiver,
+		ValidatorAddress:      validator,
+		Amount:                amount,
 	}
 }
 
@@ -50,7 +58,7 @@ func NewOracleClaimContent(cosmosReceiver sdk.AccAddress, amount sdk.Coins) Orac
 // must be created in a deterministic way that all validators can follow. For this, we use the Nonce an Ethereum Sender provided,
 // as all validators will see this same data from the smart contract.
 func CreateOracleClaimFromEthClaim(cdc *codec.Codec, ethClaim EthBridgeClaim) (oracle.Claim, error) {
-	oracleID := strconv.Itoa(ethClaim.Nonce) + ethClaim.EthereumSender.String()
+	oracleID := strconv.Itoa(ethClaim.EthereumChainID) + strconv.Itoa(ethClaim.Nonce) + ethClaim.EthereumSender.String()
 	claimContent := NewOracleClaimContent(ethClaim.CosmosReceiver, ethClaim.Amount)
 
 	claimBytes, err := json.Marshal(claimContent)
@@ -64,14 +72,18 @@ func CreateOracleClaimFromEthClaim(cdc *codec.Codec, ethClaim EthBridgeClaim) (o
 }
 
 // CreateEthClaimFromOracleString converts a string from any generic claim from the oracle module into an ethereum bridge specific claim.
-func CreateEthClaimFromOracleString(nonce int, ethereumAddress EthereumAddress, validator sdk.ValAddress, oracleClaimString string) (EthBridgeClaim, sdk.Error) {
+func CreateEthClaimFromOracleString(ethereumChainID int, bridgeContract EthereumAddress, nonce int, symbol string, tokenContract EthereumAddress, ethereumAddress EthereumAddress, validator sdk.ValAddress, oracleClaimString string) (EthBridgeClaim, sdk.Error) {
 	oracleClaim, err := CreateOracleClaimFromOracleString(oracleClaimString)
 	if err != nil {
 		return EthBridgeClaim{}, err
 	}
 
 	return NewEthBridgeClaim(
+		ethereumChainID,
+		bridgeContract,
 		nonce,
+		symbol,
+		tokenContract,
 		ethereumAddress,
 		oracleClaim.CosmosReceiver,
 		validator,

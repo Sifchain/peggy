@@ -17,16 +17,19 @@ import (
 
 // LockEvent : struct which represents a single smart contract event
 type LockEvent struct {
-	Id    [32]byte
-	From  common.Address
-	To    []byte
-	Token common.Address
-	Value *big.Int
-	Nonce *big.Int
+	EthereumChainID       *big.Int
+	BridgeContractAddress common.Address
+	Id                    [32]byte
+	From                  common.Address
+	To                    []byte
+	TokenContractAddress  common.Address
+	Symbol                string
+	Value                 *big.Int
+	Nonce                 *big.Int
 }
 
 // NewLockEvent : parses LogLock events using go-ethereum's accounts/abi library
-func NewLockEvent(contractAbi abi.ABI, eventName string, eventData []byte) LockEvent {
+func NewLockEvent(contractAbi abi.ABI, clientChainID *big.Int, contractAddress string, eventName string, eventData []byte) LockEvent {
 	// Check event name
 	if eventName != "LogLock" {
 		log.Fatal("Only LogLock events are currently supported.")
@@ -34,6 +37,14 @@ func NewLockEvent(contractAbi abi.ABI, eventName string, eventData []byte) LockE
 
 	// Parse the event's attributes as Ethereum network variables
 	event := LockEvent{}
+
+	if !common.IsHexAddress(contractAddress) {
+		log.Fatalf("Only Ethereum contracts are currently supported. Invalid address: %v", contractAddress)
+	}
+
+	event.EthereumChainID = clientChainID
+	event.BridgeContractAddress = common.HexToAddress(contractAddress)
+
 	err := contractAbi.Unpack(&event, eventName, eventData)
 	if err != nil {
 		log.Fatalf("Unpacking: %v", err)
@@ -47,14 +58,17 @@ func NewLockEvent(contractAbi abi.ABI, eventName string, eventData []byte) LockE
 // PrintEvent : prints a LockEvent struct's information
 func PrintEvent(event LockEvent) {
 	// Convert the variables into a printable format
+	chainID := event.EthereumChainID
+	bridgeContractAddress := event.BridgeContractAddress
 	id := hex.EncodeToString(event.Id[:])
 	sender := event.From.Hex()
 	recipient := string(event.To)
-	token := event.Token.Hex()
+	tokenContractAddress := event.TokenContractAddress.Hex()
+	symbol := event.Symbol
 	value := event.Value
 	nonce := event.Nonce
 
 	// Print the event's information
-	fmt.Printf("\nEvent ID: %v\nToken: %v\nSender: %v\nRecipient: %v\nValue: %v\nNonce: %v\n\n",
-		id, token, sender, recipient, value, nonce)
+	fmt.Printf("\nChain ID: %v\nBridge contract address: %v\nEvent ID: %v\nToken symbol: %v\nToken contract address: %v\nSender: %v\nRecipient: %v\nValue: %v\nNonce: %v\n\n",
+		chainID, bridgeContractAddress, id, symbol, tokenContractAddress, sender, recipient, value, nonce)
 }
