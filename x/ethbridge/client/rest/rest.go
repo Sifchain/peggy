@@ -21,10 +21,6 @@ import (
 const (
 	restEthereumChainID = "ethereumChainID"
 	restBridgeContract  = "bridgeContract"
-	restNonce           = "nonce"
-	restSymbol          = "symbol"
-	restTokenContract   = "tokenContract"
-	restEthereumSender  = "ethereumSender"
 )
 
 type createEthClaimReq struct {
