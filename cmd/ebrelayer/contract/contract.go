@@ -7,8 +7,8 @@ package contract
 
 import (
 	"io/ioutil"
-	"log"
-	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
@@ -22,12 +22,12 @@ const CosmosBridgeABI = "/abi/CosmosBridge.abi"
 
 // LoadABI : loads a smart contract as an abi.ABI
 func LoadABI(cosmosSupport bool) abi.ABI {
+	var (
+		_, b, _, _ = runtime.Caller(0)
+		dir        = filepath.Dir(b)
+	)
 
-	dir, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	var err error
 	var contractRaw []byte
 
 	switch cosmosSupport {

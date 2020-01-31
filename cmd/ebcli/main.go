@@ -48,6 +48,7 @@ func main() {
 
 	// Add --chain-id to persistent flags and mark it required
 	rootCmd.PersistentFlags().String(flags.FlagChainID, "", "Chain ID of tendermint node")
+
 	rootCmd.PersistentPreRunE = func(_ *cobra.Command, _ []string) error {
 		return initConfig(rootCmd)
 	}
@@ -115,6 +116,7 @@ func txCmd(cdc *amino.Codec) *cobra.Command {
 		flags.LineBreak,
 		authcmd.GetBroadcastCommand(cdc),
 		authcmd.GetEncodeCommand(cdc),
+		authcmd.GetDecodeCommand(cdc),
 		flags.LineBreak,
 	)
 
@@ -158,11 +160,22 @@ func initConfig(cmd *cobra.Command) error {
 			return err
 		}
 	}
+	fmt.Println("cmd.PersistentFlags().Lookup(flags.FlagChainID)", cmd.PersistentFlags().Lookup(flags.FlagChainID))
+	fmt.Println("viper.BindPFlag(flags.FlagChainID, cmd.PersistentFlags().Lookup(flags.FlagChainID))", viper.BindPFlag(flags.FlagChainID, cmd.PersistentFlags().Lookup(flags.FlagChainID)))
 	if err := viper.BindPFlag(flags.FlagChainID, cmd.PersistentFlags().Lookup(flags.FlagChainID)); err != nil {
+		fmt.Println("error 1")
 		return err
 	}
 	if err := viper.BindPFlag(cli.EncodingFlag, cmd.PersistentFlags().Lookup(cli.EncodingFlag)); err != nil {
+		fmt.Println("error 2")
 		return err
 	}
-	return viper.BindPFlag(cli.OutputFlag, cmd.PersistentFlags().Lookup(cli.OutputFlag))
+
+	// cmd.MarkPersistentFlagRequired(flags.FlagChainID)
+
+	err = viper.BindPFlag(cli.OutputFlag, cmd.PersistentFlags().Lookup(cli.OutputFlag))
+	if err != nil {
+		fmt.Println("error 3")
+	}
+	return err
 }
