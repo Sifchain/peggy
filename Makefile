@@ -39,9 +39,9 @@ clean:
 	rm -f ebrelayer
 
 install:
-	go install -mod=readonly ./cmd/ebd
-	go install -mod=readonly ./cmd/ebcli
-	go install -mod=readonly ./cmd/ebrelayer
+	go install ./cmd/ebd
+	go install ./cmd/ebcli
+	go install ./cmd/ebrelayer
 
 lint:
 	@echo "--> Running linter"

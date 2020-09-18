@@ -10,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	tmKv "github.com/tendermint/tendermint/libs/kv"
 	tmLog "github.com/tendermint/tendermint/libs/log"
-	tmClient "github.com/tendermint/tendermint/rpc/client"
+	tmClient "github.com/tendermint/tendermint/rpc/client/http"
 	tmTypes "github.com/tendermint/tendermint/types"
 
 	"github.com/cosmos/peggy/cmd/ebrelayer/txs"
@@ -42,7 +42,7 @@ func NewCosmosSub(tmProvider, ethProvider string, registryContractAddress common
 
 // Start a Cosmos chain subscription
 func (sub CosmosSub) Start() {
-	client, err := tmClient.NewHTTP(sub.TmProvider, "/websocket")
+	client, err := tmClient.New(sub.TmProvider, "/websocket")
 	if err != nil {
 		sub.Logger.Error("failed to initialize a client", "err", err)
 		os.Exit(1)
