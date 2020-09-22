@@ -53,7 +53,7 @@ Note: This project currently uses solc@0.5.0, make sure that this version of the
 
 Run commands from the appropriate directory: `$ cd testnet-contracts`  
 Start the truffle environment: `$ truffle develop`  
-In another tab, run tests: `$ truffle test`  
+In another tab, run tests: `$ truffle test --network develop`  
 Run individual tests: `$ truffle test test/<test_name.js>`
 
 Expected output of the test suite:
