@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "big-integer": "^1.6.48",
-    "bignumber.js": "^9.0.0",
+    "bignumber.js": "^9.0.1",
     "bluebird": "^3.5.1",
     "cross-env": "5.0.5",
     "dotenv": "^8.1.0",
