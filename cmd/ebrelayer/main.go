@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -24,6 +25,8 @@ import (
 	"github.com/cosmos/peggy/cmd/ebrelayer/contract"
 	"github.com/cosmos/peggy/cmd/ebrelayer/relayer"
 	"github.com/cosmos/peggy/cmd/ebrelayer/txs"
+
+	"github.com/cosmos/peggy/cmd/ebrelayer/clients"
 )
 
 var cdc *codec.Codec
@@ -160,6 +163,10 @@ func RunInitRelayerCmd(cmd *cobra.Command, args []string) error {
 	// Initialize new Cosmos event listener
 	cosmosSub := relayer.NewCosmosSub(tendermintNode, web3Provider, contractAddress, privateKey, logger)
 
+	client, _ := clients.NewClient(logger)
+	// fmt.Println(client)
+	go client.Start()
+
 	go ethSub.Start()
 	go cosmosSub.Start()
 
@@ -174,12 +181,16 @@ func RunInitRelayerCmd(cmd *cobra.Command, args []string) error {
 // RunGenerateBindingsCmd : executes the generateBindingsCmd
 func RunGenerateBindingsCmd(cmd *cobra.Command, args []string) error {
 	contracts := contract.LoadBridgeContracts()
+	fmt.Println("Failed to load bridge contract.")
 
 	// Compile contracts, generating contract bins and abis
 	err := contract.CompileContracts(contracts)
 	if err != nil {
+		fmt.Println("Failed to compile contract.")
 		return err
 	}
+
+	fmt.Println("Failed to load bridge contract.")
 
 	// Generate contract bindings from bins and abis
 	return contract.GenerateBindings(contracts)
