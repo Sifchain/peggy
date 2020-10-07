@@ -84,8 +84,13 @@ yarn token:address
 ```
 
 #### Sending ERC20 assets to Cosmos via Lock
-
+```bash
+# Put TEST tokens in the white list
+# Note: crypto thief intends to use a token minted from a copy of a well-known Ethereum smart contract
+yarn peggy:whiteList [TEST_TOKEN_CONTRACT_ADDRESS] true
 ```
+
+```bash
 # Lock TEST tokens on the Bridge contract
 # Note: ERC20 token locking requires 3 custom params and does not support the --default flag
 yarn peggy:lock [COSMOS_RECIPIENT_ADDRESS] [TEST_TOKEN_CONTRACT_ADDRESS] [TOKEN_AMOUNT]

@@ -5,7 +5,6 @@ import "./EthereumBank.sol";
 import "../Oracle.sol";
 import "../CosmosBridge.sol";
 
-
 /**
  * @title BridgeBank
  * @dev Bank contract which coordinates asset-related functionality.
@@ -21,6 +20,12 @@ contract BridgeBank is CosmosBank, EthereumBank {
     address public operator;
     Oracle public oracle;
     CosmosBridge public cosmosBridge;
+    mapping(address => bool) whiteList;
+
+    /*
+     * @dev: Event declarations
+     */
+    event LogWhiteListUpdate(address _token, bool _value);
 
     /*
      * @dev: Constructor, sets operator
@@ -33,6 +38,7 @@ contract BridgeBank is CosmosBank, EthereumBank {
         operator = _operatorAddress;
         oracle = Oracle(_oracleAddress);
         cosmosBridge = CosmosBridge(_cosmosBridgeAddress);
+        whiteList[address(0)] = true;
     }
 
     /*
@@ -66,6 +72,17 @@ contract BridgeBank is CosmosBank, EthereumBank {
     }
 
     /*
+     * @dev: Modifier to restrict erc20 can be locked
+     */
+    modifier onlyWhiteList(address _token) {
+        require(
+            whiteList[_token],
+            "Only token in whitelist can be transferred to cosmos"
+        );
+        _;
+    }
+
+    /*
      * @dev: Fallback function allows operator to send funds to the bank directly
      *       This feature is used for testing and is available at the operator's own risk.
      */
@@ -83,6 +100,32 @@ contract BridgeBank is CosmosBank, EthereumBank {
         returns (address)
     {
         return deployNewBridgeToken(_symbol);
+    }
+
+    /*
+     * @dev: Set the token address in whitelist
+     *
+     * @param _token: ERC 20's address
+     * @return: if _token in whitelist
+     */
+    function updateWhiteList(address _token, bool _inList)
+        public
+        onlyOperator
+        returns (bool)
+    {
+        whiteList[_token] = _inList;
+        emit LogWhiteListUpdate(_token, _inList);
+        return _inList;
+    }
+
+    /*
+     * @dev: Get if the token in whitelist
+     *
+     * @param _token: ERC 20's address
+     * @return: if _token in whitelist
+     */
+    function getTokenInWhiteList(address _token) public view returns (bool) {
+        return whiteList[_token];
     }
 
     /*
@@ -118,10 +161,11 @@ contract BridgeBank is CosmosBank, EthereumBank {
      * @param _token: token address in origin chain (0x0 if ethereum)
      * @param _amount: value of deposit
      */
-    function burn(bytes memory _recipient, address _token, uint256 _amount)
-        public
-        availableNonce()
-    {
+    function burn(
+        bytes memory _recipient,
+        address _token,
+        uint256 _amount
+    ) public availableNonce() {
         BridgeToken(_token).burnFrom(msg.sender, _amount);
         string memory symbol = BridgeToken(_token).symbol();
         burnFunds(msg.sender, _recipient, _token, symbol, _amount);
@@ -134,11 +178,11 @@ contract BridgeBank is CosmosBank, EthereumBank {
      * @param _token: token address in origin chain (0x0 if ethereum)
      * @param _amount: value of deposit
      */
-    function lock(bytes memory _recipient, address _token, uint256 _amount)
-        public
-        payable
-        availableNonce()
-    {
+    function lock(
+        bytes memory _recipient,
+        address _token,
+        uint256 _amount
+    ) public payable availableNonce() onlyWhiteList(_token) {
         string memory symbol;
 
         // Ethereum deposit
@@ -152,7 +196,7 @@ contract BridgeBank is CosmosBank, EthereumBank {
                 "The transactions value must be equal the specified amount (in wei)"
             );
             symbol = "ETH";
-        // ERC20 deposit
+            // ERC20 deposit
         } else {
             require(
                 BridgeToken(_token).transferFrom(
@@ -227,7 +271,12 @@ contract BridgeBank is CosmosBank, EthereumBank {
     function viewCosmosDeposit(bytes32 _id)
         public
         view
-        returns (bytes memory, address payable, address, uint256)
+        returns (
+            bytes memory,
+            address payable,
+            address,
+            uint256
+        )
     {
         return getCosmosDeposit(_id);
     }
