@@ -88,7 +88,6 @@ module.exports = async () => {
     coinDenom = NULL_ADDRESS;
   }
 
-  console.log('coinDenom is ' , coinDenom);
   /*******************************************
    *** Web3 provider
    *** Set contract provider based on --network flag

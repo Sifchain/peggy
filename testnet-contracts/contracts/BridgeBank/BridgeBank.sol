@@ -5,6 +5,7 @@ import "./EthereumBank.sol";
 import "../Oracle.sol";
 import "../CosmosBridge.sol";
 
+
 /**
  * @title BridgeBank
  * @dev Bank contract which coordinates asset-related functionality.
