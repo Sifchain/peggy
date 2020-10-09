@@ -81,6 +81,8 @@ The process is as follows:
 ## Use Case Information Flows
 
 ![MintingPeggedETHToken](images/MintingPeggedETHToken.png)
+![MigratePeggedTokentoSif](images/MigratePeggedTokentoSif.png)
+![MigrateTokenSifchaintoPeg](images/MigrateTokenSifchaintoPeg.png)
 ![MintPeggedRowan](images/MintPeggedRowan.png)
 ![BurnPeggedcERC20](images/BurnPeggedcERC20.png)
 ![BurnPeggedeRowan](images/BurnPeggedeRowan.png)
