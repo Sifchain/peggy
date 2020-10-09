@@ -1,7 +1,7 @@
 # **Ethereum Cosmos Bridge Architecture**
 
 ## Changelog
--First Sifchain Draft: Austin Haines (Barefoot Coders) Sifchain October 8, 2020
+-First Sifchain Draft WIP: Austin Haines (Barefoot Coders) October 8, 2020
 
 ## Context
 
@@ -27,7 +27,7 @@ The Relayer is a service which interfaces with both blockchains, allowing valida
 
 The Relayer process is as follows:
 
-- continually listen for a `LogLock` or `LogBurn` event
+- continually listen for a `LogLock`, `LogBurn`, `MsgLock`, or `MsgBurn` event
 - when an event is seen, parse information associated with the Ethereum/Cosmos transaction
 - uses this information to build an unsigned Cosmos/Ethereum transaction
 - signs and send this transaction to Tendermint/Ethereum.
@@ -53,7 +53,7 @@ The process is as follows:
 
 - A burn or lock transaction for the EthBridge module is received
 - Tokens are either burned or locked
-- A `LogBurn` or `LogLock` event is emitted to be received by the Relayer
+- A `MsgBurn` or `MsgLock` event is emitted to be received by the Relayer
 
 **IBC:** This module is also responsible for sending and receiving IBC transactions to compatible Cosmos chains. This is how pegged tokens are transferred between the Ethereum - Cosmos Peg Zone and other Cosmos chains such as Sifchain where they can be used to swap, provide liquidity to liquidity pools, etc.
 
@@ -78,6 +78,11 @@ The process is as follows:
 - Once a claim has been processed by the Oracle, the status is returned
 - If the claim is successful, new tokens representing Ethereum are minted via the Bank module
 
+## Cosmos Messages and Ethereum Logs
+
+![MsgsLogs](images/MsgsLogs.png)
+
+
 ## Use Case Information Flows
 
 ![MintingPeggedETHToken](images/MintingPeggedETHToken.png)
@@ -86,6 +91,8 @@ The process is as follows:
 ![MintPeggedRowan](images/MintPeggedRowan.png)
 ![BurnPeggedcERC20](images/BurnPeggedcERC20.png)
 ![BurnPeggedeRowan](images/BurnPeggedeRowan.png)
+
+
 
 ## Architecture Diagram
 
