@@ -4,7 +4,7 @@ import "./CosmosBank.sol";
 import "./EthereumBank.sol";
 import "../Oracle.sol";
 import "../CosmosBridge.sol";
-
+import "./WhiteList.sol";
 
 /**
  * @title BridgeBank
@@ -12,21 +12,16 @@ import "../CosmosBridge.sol";
  *      CosmosBank manages the minting and burning of tokens which
  *      represent Cosmos based assets, while EthereumBank manages
  *      the locking and unlocking of Ethereum and ERC20 token assets
- *      based on Ethereum.
+ *      based on Ethereum. WhiteList records the ERC20 token address 
+ *      list that can be locked.
  **/
 
-contract BridgeBank is CosmosBank, EthereumBank {
+contract BridgeBank is CosmosBank, EthereumBank, WhiteList {
     using SafeMath for uint256;
 
     address public operator;
     Oracle public oracle;
     CosmosBridge public cosmosBridge;
-    mapping(address => bool) whiteList;
-
-    /*
-     * @dev: Event declarations
-     */
-    event LogWhiteListUpdate(address _token, bool _value);
 
     /*
      * @dev: Constructor, sets operator
@@ -39,7 +34,6 @@ contract BridgeBank is CosmosBank, EthereumBank {
         operator = _operatorAddress;
         oracle = Oracle(_oracleAddress);
         cosmosBridge = CosmosBridge(_cosmosBridgeAddress);
-        whiteList[address(0)] = true;
     }
 
     /*
@@ -77,7 +71,7 @@ contract BridgeBank is CosmosBank, EthereumBank {
      */
     modifier onlyWhiteList(address _token) {
         require(
-            whiteList[_token],
+            getTokenInWhiteList(_token),
             "Only token in whitelist can be transferred to cosmos"
         );
         _;
@@ -107,26 +101,15 @@ contract BridgeBank is CosmosBank, EthereumBank {
      * @dev: Set the token address in whitelist
      *
      * @param _token: ERC 20's address
-     * @return: if _token in whitelist
+     * @param _inList: set the _token in list or not
+     * @return: new value of if _token in whitelist
      */
     function updateWhiteList(address _token, bool _inList)
         public
         onlyOperator
         returns (bool)
     {
-        whiteList[_token] = _inList;
-        emit LogWhiteListUpdate(_token, _inList);
-        return _inList;
-    }
-
-    /*
-     * @dev: Get if the token in whitelist
-     *
-     * @param _token: ERC 20's address
-     * @return: if _token in whitelist
-     */
-    function getTokenInWhiteList(address _token) public view returns (bool) {
-        return whiteList[_token];
+        return setTokenInWhiteList(_token, _inList);
     }
 
     /*

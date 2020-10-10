@@ -82,7 +82,7 @@ module.exports = async () => {
     // Get current accounts
     const accounts = await web3.eth.getAccounts();
 
-    // Send lock transaction
+    // Send update whitelist transation
     console.log("Connecting to contract....");
     const {
       logs
