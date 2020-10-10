@@ -97,6 +97,9 @@ The process is as follows:
 - Once a claim has been processed by the Oracle, the status is returned
 - If the claim is successful, new tokens representing Ethereum are minted via the Bank module
 
+## Peggy <-> Ethereum Communication
+Right now, Peggy validators query external Ethereum nodes to receive updates on the status of Ethereum transactions via Ethereum events.  This can lead to failure states. Sifchain plans to upgrade the Peggy Relayer to not use the event subscription service. Instead each Peggy validator will sit alongside an Ethereum full node and scan each block and transaction.
+
 ## Cosmos Messages and Ethereum Logs
 
 ![MsgsLogs](images/MsgsLogs.png)
