@@ -18,6 +18,17 @@ contract WhiteList {
     }
 
     /*
+     * @dev: Modifier to restrict erc20 can be locked
+     */
+    modifier onlyWhiteList(address _token) {
+        require(
+            getTokenInWhiteList(_token),
+            "Only token in whitelist can be transferred to cosmos"
+        );
+        _;
+    }
+
+    /*
      * @dev: Set the token address in whitelist
      *
      * @param _token: ERC 20's address

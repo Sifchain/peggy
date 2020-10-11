@@ -67,17 +67,6 @@ contract BridgeBank is CosmosBank, EthereumBank, WhiteList {
     }
 
     /*
-     * @dev: Modifier to restrict erc20 can be locked
-     */
-    modifier onlyWhiteList(address _token) {
-        require(
-            getTokenInWhiteList(_token),
-            "Only token in whitelist can be transferred to cosmos"
-        );
-        _;
-    }
-
-    /*
      * @dev: Fallback function allows operator to send funds to the bank directly
      *       This feature is used for testing and is available at the operator's own risk.
      */
