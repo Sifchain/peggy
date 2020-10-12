@@ -168,6 +168,11 @@ contract("CosmosBridge", function (accounts) {
       this.symbol = "TEST";
       this.token = await BridgeToken.new(this.symbol);
       this.amount = 100;
+
+      // Add the token into white list
+      await this.bridgeBank.updateWhiteList(this.token.address, true, {
+        from: operator
+      }).should.be.fulfilled;
     });
 
     it("should allow for the creation of new burn prophecy claims", async function () {

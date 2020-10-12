@@ -4,7 +4,7 @@ import "./CosmosBank.sol";
 import "./EthereumBank.sol";
 import "../Oracle.sol";
 import "../CosmosBridge.sol";
-
+import "./WhiteList.sol";
 
 /**
  * @title BridgeBank
@@ -12,10 +12,11 @@ import "../CosmosBridge.sol";
  *      CosmosBank manages the minting and burning of tokens which
  *      represent Cosmos based assets, while EthereumBank manages
  *      the locking and unlocking of Ethereum and ERC20 token assets
- *      based on Ethereum.
+ *      based on Ethereum. WhiteList records the ERC20 token address 
+ *      list that can be locked.
  **/
 
-contract BridgeBank is CosmosBank, EthereumBank {
+contract BridgeBank is CosmosBank, EthereumBank, WhiteList {
     using SafeMath for uint256;
 
     address public operator;
@@ -86,6 +87,21 @@ contract BridgeBank is CosmosBank, EthereumBank {
     }
 
     /*
+     * @dev: Set the token address in whitelist
+     *
+     * @param _token: ERC 20's address
+     * @param _inList: set the _token in list or not
+     * @return: new value of if _token in whitelist
+     */
+    function updateWhiteList(address _token, bool _inList)
+        public
+        onlyOperator
+        returns (bool)
+    {
+        return setTokenInWhiteList(_token, _inList);
+    }
+
+    /*
      * @dev: Mints new BankTokens
      *
      * @param _cosmosSender: The sender's Cosmos address in bytes.
@@ -118,10 +134,11 @@ contract BridgeBank is CosmosBank, EthereumBank {
      * @param _token: token address in origin chain (0x0 if ethereum)
      * @param _amount: value of deposit
      */
-    function burn(bytes memory _recipient, address _token, uint256 _amount)
-        public
-        availableNonce()
-    {
+    function burn(
+        bytes memory _recipient,
+        address _token,
+        uint256 _amount
+    ) public availableNonce() {
         BridgeToken(_token).burnFrom(msg.sender, _amount);
         string memory symbol = BridgeToken(_token).symbol();
         burnFunds(msg.sender, _recipient, _token, symbol, _amount);
@@ -134,11 +151,11 @@ contract BridgeBank is CosmosBank, EthereumBank {
      * @param _token: token address in origin chain (0x0 if ethereum)
      * @param _amount: value of deposit
      */
-    function lock(bytes memory _recipient, address _token, uint256 _amount)
-        public
-        payable
-        availableNonce()
-    {
+    function lock(
+        bytes memory _recipient,
+        address _token,
+        uint256 _amount
+    ) public payable availableNonce() onlyWhiteList(_token) {
         string memory symbol;
 
         // Ethereum deposit
@@ -152,7 +169,7 @@ contract BridgeBank is CosmosBank, EthereumBank {
                 "The transactions value must be equal the specified amount (in wei)"
             );
             symbol = "ETH";
-        // ERC20 deposit
+            // ERC20 deposit
         } else {
             require(
                 BridgeToken(_token).transferFrom(
@@ -227,7 +244,12 @@ contract BridgeBank is CosmosBank, EthereumBank {
     function viewCosmosDeposit(bytes32 _id)
         public
         view
-        returns (bytes memory, address payable, address, uint256)
+        returns (
+            bytes memory,
+            address payable,
+            address,
+            uint256
+        )
     {
         return getCosmosDeposit(_id);
     }
