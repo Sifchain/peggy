@@ -8,6 +8,13 @@ const Web3Utils = require("web3-utils");
 const EVMRevert = "revert";
 const BigNumber = web3.BigNumber;
 
+const {
+  BN,           // Big Number support
+  constants,    // Common constants, like the zero address and largest integers
+  expectEvent,  // Assertions for emitted events
+  expectRevert, // Assertions for transactions that should fail
+} = require('@openzeppelin/test-helpers');
+
 require("chai")
   .use(require("chai-as-promised"))
   .use(require("chai-bignumber")(BigNumber))
@@ -294,20 +301,18 @@ contract("BridgeBank", function (accounts) {
         }
       ).should.be.fulfilled;
 
-      try {
         // Attempt to lock tokens
-        await this.bridgeBank.lock(
+      await expectRevert(
+        this.bridgeBank.lock(
           this.recipient,
           this.token2.address,
           this.amount, {
             from: userOne,
             value: 0
           }
-        );
-        throw new Error('Token not in white list locked in smart contract.');
-      } catch (error) {
-        assert.equal(error.reason, "Only token in whitelist can be transferred to cosmos");
-      }
+        ),
+        'Only token in whitelist can be transferred to cosmos'
+      );
     });
   });
 

@@ -29,5 +29,8 @@
     "token:address": "yarn workspace testnet-contracts token:address",
     "token:mint": "yarn workspace testnet-contracts token:mint",
     "token:approve": "yarn workspace testnet-contracts token:approve"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.6"
   }
 }
