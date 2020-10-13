@@ -100,7 +100,7 @@ contract BridgeBank is CosmosBank, EthereumBank {
         address _bridgeTokenAddress,
         string memory _symbol,
         uint256 _amount
-    ) public onlyCosmosBridge {
+    ) public onlyCosmosBridge availableCosmosDepositNonce() {
         return
             mintNewBridgeTokens(
                 _cosmosSender,

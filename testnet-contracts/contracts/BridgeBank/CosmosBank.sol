@@ -14,6 +14,7 @@ contract CosmosBank {
     using SafeMath for uint256;
 
     uint256 public bridgeTokenCount;
+    uint256 public cosmosDepositNonce;
     mapping(string => address) controlledBridgeTokens;
     mapping(bytes32 => CosmosDeposit) cosmosDeposits;
 
@@ -42,6 +43,15 @@ contract CosmosBank {
      */
     constructor() public {
         bridgeTokenCount = 0;
+        cosmosDepositNonce = 0;
+    }
+
+    /*
+     * @dev: Modifier declarations
+     */
+    modifier availableCosmosDepositNonce() {
+        require(cosmosDepositNonce + 1 > cosmosDepositNonce, "No available cosmos deposit nonces.");
+        _;
     }
 
     /*
@@ -73,8 +83,9 @@ contract CosmosBank {
         address _token,
         uint256 _amount
     ) internal returns (bytes32) {
+        cosmosDepositNonce = cosmosDepositNonce.add(1);
         bytes32 depositID = keccak256(
-            abi.encodePacked(_cosmosSender, _ethereumRecipient, _token, _amount)
+            abi.encodePacked(_cosmosSender, _ethereumRecipient, _token, _amount, cosmosDepositNonce)
         );
 
         cosmosDeposits[depositID] = CosmosDeposit(
