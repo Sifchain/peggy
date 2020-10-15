@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/sifchain/peggy/cmd/ebrelayer/txs"
 	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/sifchain/peggy/cmd/ebrelayer/txs"
 )
 
 // File paths to Peggy smart contract ABIs
