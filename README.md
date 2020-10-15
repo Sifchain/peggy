@@ -1,13 +1,13 @@
 # Peggy
 
-[![version](https://img.shields.io/github/tag/cosmos/peggy.svg)](https://github.com/cosmos/peggy/releases/latest)
-[![CircleCI](https://circleci.com/gh/cosmos/peggy/tree/master.svg?style=svg)](https://circleci.com/gh/cosmos/peggy/tree/master)
-![Go Tests](https://github.com/cosmos/peggy/workflows/test%20coverage/badge.svg)
-[![Go Report Card](https://goreportcard.com/badge/github.com/cosmos/peggy)](https://goreportcard.com/report/github.com/cosmos/peggy)
-[![LoC](https://tokei.rs/b1/github/cosmos/peggy)](https://github.com/cosmos/peggy)
-[![API Reference](https://godoc.org/github.com/cosmos/peggy?status.svg)](https://godoc.org/github.com/cosmos/peggy)
+[![version](https://img.shields.io/github/tag/sifchain/peggy.svg)](https://github.com/sifchain/peggy/releases/latest)
+[![CircleCI](https://circleci.com/gh/sifchain/peggy/tree/master.svg?style=svg)](https://circleci.com/gh/sifchain/peggy/tree/master)
+![Go Tests](https://github.com/sifchain/peggy/workflows/test%20coverage/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sifchain/peggy)](https://goreportcard.com/report/github.com/sifchain/peggy)
+[![LoC](https://tokei.rs/b1/github/sifchain/peggy)](https://github.com/sifchain/peggy)
+[![API Reference](https://godoc.org/github.com/sifchain/peggy?status.svg)](https://godoc.org/github.com/sifchain/peggy)
 
-> :warning: :warning: **WARNING: This bridge is not production ready. There is at least one known security vulnerability. See: [181](https://github.com/cosmos/peggy/issues/181).**
+> :warning: :warning: **WARNING: This bridge is not production ready. There is at least one known security vulnerability. See: [181](https://github.com/sifchain/peggy/issues/181).**
 
 
 ## Introduction
@@ -28,7 +28,7 @@ These modules can be added to any Cosmos-SDK based chain, but a demo application
 # Clone the repository
 mkdir -p $GOPATH/src/github.com/cosmos
 cd $GOPATH/src/github.com/cosmos
-git clone https://github.com/cosmos/peggy
+git clone https://github.com/sifchain/peggy
 cd peggy && git checkout master
 
 # Install tools (golangci-lint v1.18)

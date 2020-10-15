@@ -10,8 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/cosmos/peggy/x/ethbridge/types"
-	oracletypes "github.com/cosmos/peggy/x/oracle/types"
+	"github.com/sifchain/peggy/x/ethbridge/types"
+	oracletypes "github.com/sifchain/peggy/x/oracle/types"
 )
 
 // TODO: move to x/oracle

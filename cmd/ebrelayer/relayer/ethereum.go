@@ -24,10 +24,10 @@ import (
 	amino "github.com/tendermint/go-amino"
 	tmLog "github.com/tendermint/tendermint/libs/log"
 
-	"github.com/cosmos/peggy/cmd/ebrelayer/contract"
-	"github.com/cosmos/peggy/cmd/ebrelayer/txs"
-	"github.com/cosmos/peggy/cmd/ebrelayer/types"
-	ethbridge "github.com/cosmos/peggy/x/ethbridge/types"
+	"github.com/sifchain/peggy/cmd/ebrelayer/contract"
+	"github.com/sifchain/peggy/cmd/ebrelayer/txs"
+	"github.com/sifchain/peggy/cmd/ebrelayer/types"
+	ethbridge "github.com/sifchain/peggy/x/ethbridge/types"
 )
 
 // TODO: Move relay functionality out of EthereumSub into a new Relayer parent struct

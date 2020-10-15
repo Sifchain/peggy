@@ -8,8 +8,8 @@ import (
 	tmOs "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/peggy/x/ethbridge"
-	"github.com/cosmos/peggy/x/oracle"
+	"github.com/sifchain/peggy/x/ethbridge"
+	"github.com/sifchain/peggy/x/oracle"
 
 	bam "github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/codec"
