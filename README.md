@@ -7,7 +7,7 @@
 [![LoC](https://tokei.rs/b1/github/sifchain/peggy)](https://github.com/sifchain/peggy)
 [![API Reference](https://godoc.org/github.com/sifchain/peggy?status.svg)](https://godoc.org/github.com/sifchain/peggy)
 
-> :warning: :warning: **WARNING: This bridge is not production ready. There is at least one known security vulnerability. See: [181](https://github.com/sifchain/peggy/issues/181).**
+> :warning: :warning: **WARNING: This bridge is not production ready.**
 
 
 ## Introduction
