@@ -5,8 +5,8 @@ import (
 
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/cosmos/peggy/x/ethbridge/types"
-	"github.com/cosmos/peggy/x/oracle"
+	"github.com/sifchain/peggy/x/ethbridge/types"
+	"github.com/sifchain/peggy/x/oracle"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 

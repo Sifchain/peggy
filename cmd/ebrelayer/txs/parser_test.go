@@ -11,8 +11,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/peggy/cmd/ebrelayer/types"
-	ethbridge "github.com/cosmos/peggy/x/ethbridge/types"
+	"github.com/sifchain/peggy/cmd/ebrelayer/types"
+	ethbridge "github.com/sifchain/peggy/x/ethbridge/types"
 )
 
 func TestLogLockToEthBridgeClaim(t *testing.T) {

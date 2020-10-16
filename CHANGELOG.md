@@ -52,20 +52,4 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
-- (ethbridge) [\#75](https://github.com/cosmos/peggy/pull/75) Add burn message and functionality for burning tokens and trigerring
-  events.
-- (ethbridge) [\#81](https://github.com/cosmos/peggy/pull/81) Add functionality for locking up cosmos coins and detecting burned coins from ethereum
-- (relayer) [\#163](https://github.com/cosmos/peggy/pull/163) Unified Relayer for chain subscription and event relay
-- (ethbridge) [\#182](https://github.com/cosmos/peggy/pull/182) Remove whitelisting and prefix Eth-tokens and change API/CLI
-- (relayer) [\#183](https://github.com/cosmos/peggy/pull/183) Add integrated generator for contract go bindings
-- (relayer) [\#190](https://github.com/cosmos/peggy/pull/190) Support burns of native cosmos assets on Ethereum
-
 ### Improvements
-
-- (ethbridge) [\#67](https://github.com/cosmos/peggy/pull/67) Add events to handler
-- (ethbridge) [\#74](https://github.com/cosmos/peggy/pull/74) Change to use new supply module
-- (testnet-contracts) [\#82](https://github.com/cosmos/peggy/pull/82) Update contracts
-- (testnet-contracts) [\#89](https://github.com/cosmos/peggy/pull/89) Dynamic validator set
-- (misc) [\#71](https://github.com/cosmos/peggy/pull/71) Dockerize validator and relayer for simple testing purposes
-- (sdk) Update SDK version to v0.37.4
-- (ethbridge) [\#100](https://github.com/cosmos/peggy/pull/100) Add Keeper to EthBridge module and use expected keepers abstraction

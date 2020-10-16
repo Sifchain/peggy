@@ -9,7 +9,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client/context"
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cosmos/peggy/x/ethbridge/types"
+	"github.com/sifchain/peggy/x/ethbridge/types"
 )
 
 // GetCmdGetEthBridgeProphecy queries information about a specific prophecy
