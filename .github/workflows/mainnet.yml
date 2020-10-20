@@ -1,0 +1,25 @@
+name: Publish Mainnet Images
+
+on:
+  release:
+    type: created
+    branches: master
+
+jobs:
+  mainnet:
+    name: mainnet
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build images
+        run: |
+          make CHAINNET=mainnet BINARY=ebrelayer build-image
+
+      - name: Push images
+        run: |
+          docker push sifchain/ebrelayer:mainnet

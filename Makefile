@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+BINARY?=ebrelayer
+
 all: clean test build install lint
 
 # The below include contains the tools and runsim targets.
@@ -42,6 +44,9 @@ install:
 	go install ./cmd/ebd
 	go install ./cmd/ebcli
 	go install ./cmd/ebrelayer
+
+build-image:
+	docker build -t sifchain/$(BINARY):$(CHAINNET) -f cmd/$(BINARY)/Dockerfile .
 
 lint:
 	@echo "--> Running linter"
