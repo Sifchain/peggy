@@ -21,6 +21,7 @@ contract BridgeBank is CosmosBank, EthereumBank {
     address public operator;
     Oracle public oracle;
     CosmosBridge public cosmosBridge;
+    address public owner;
 
     /*
      * @dev: Constructor, sets operator
@@ -28,11 +29,13 @@ contract BridgeBank is CosmosBank, EthereumBank {
     constructor(
         address _operatorAddress,
         address _oracleAddress,
-        address _cosmosBridgeAddress
+        address _cosmosBridgeAddress,
+        address _owner
     ) public {
         operator = _operatorAddress;
         oracle = Oracle(_oracleAddress);
         cosmosBridge = CosmosBridge(_cosmosBridgeAddress);
+        owner = _owner;
     }
 
     /*
@@ -40,6 +43,14 @@ contract BridgeBank is CosmosBank, EthereumBank {
      */
     modifier onlyOperator() {
         require(msg.sender == operator, "Must be BridgeBank operator.");
+        _;
+    }
+
+    /*
+     * @dev: Modifier to restrict access to operator
+     */
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Must be Owner.");
         _;
     }
 
@@ -83,6 +94,19 @@ contract BridgeBank is CosmosBank, EthereumBank {
         returns (address)
     {
         return deployNewBridgeToken(_symbol);
+    }
+
+    /*
+     * @dev: Creates a new BridgeToken
+     *
+     * @param _symbol: The new BridgeToken's symbol
+     * @return: The new BridgeToken contract's address
+     */
+    function addExistingBridgeToken(
+        string memory _symbol,
+        address _contractAddress
+    ) public onlyOwner returns (address) {
+        return useExistingBridgeToken(_symbol, _contractAddress);
     }
 
     /*
