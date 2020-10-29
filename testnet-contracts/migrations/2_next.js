@@ -134,6 +134,7 @@ module.exports = function(deployer, network, accounts) {
       operator,
       Oracle.address,
       CosmosBridge.address,
+      operator,
       {
         gas: 6721975,
         from: operator

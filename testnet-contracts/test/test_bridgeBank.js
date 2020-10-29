@@ -62,7 +62,8 @@ contract("BridgeBank", function (accounts) {
       this.bridgeBank = await BridgeBank.new(
         operator,
         this.oracle.address,
-        this.cosmosBridge.address
+        this.cosmosBridge.address,
+        operator
       );
     });
 
@@ -121,7 +122,8 @@ contract("BridgeBank", function (accounts) {
       this.bridgeBank = await BridgeBank.new(
         operator,
         this.oracle.address,
-        this.cosmosBridge.address
+        this.cosmosBridge.address,
+        operator
       );
 
       // Operator sets Oracle
@@ -254,7 +256,8 @@ contract("BridgeBank", function (accounts) {
       this.bridgeBank = await BridgeBank.new(
         operator,
         this.oracle.address,
-        this.cosmosBridge.address
+        this.cosmosBridge.address,
+        operator
       );
 
       this.recipient = web3.utils.utf8ToHex(
@@ -342,7 +345,8 @@ contract("BridgeBank", function (accounts) {
       this.bridgeBank = await BridgeBank.new(
         operator,
         this.oracle.address,
-        this.cosmosBridge.address
+        this.cosmosBridge.address,
+        operator
       );
 
       this.recipient = web3.utils.utf8ToHex(
@@ -439,6 +443,89 @@ contract("BridgeBank", function (accounts) {
     });
   });
 
+  describe("Bridge token creation", function () {
+    before(async function () {
+      // Deploy Valset contract
+      this.initialValidators = [userOne, userTwo, userThree];
+      this.initialPowers = [5, 8, 12];
+      this.valset = await Valset.new(
+        operator,
+        this.initialValidators,
+        this.initialPowers
+      );
+
+      // Deploy CosmosBridge contract
+      this.cosmosBridge = await CosmosBridge.new(operator, this.valset.address);
+
+      // Deploy Oracle contract
+      this.oracle = await Oracle.new(
+        operator,
+        this.valset.address,
+        this.cosmosBridge.address,
+        consensusThreshold
+      );
+
+      // Deploy BridgeBank contract
+      this.bridgeBank = await BridgeBank.new(
+        operator,
+        operator,
+        operator,
+        operator
+      );
+
+      this.recipient = web3.utils.utf8ToHex(
+        "cosmos1pjtgu0vau2m52nrykdpztrt887aykue0hq7dfh"
+      );
+      // This is for Ethereum deposits
+      this.ethereumToken = "0x0000000000000000000000000000000000000000";
+      this.weiAmount = web3.utils.toWei("0.25", "ether");
+      // This is for ERC20 deposits
+      this.symbol = "TEST";
+      let address = await this.bridgeBank.createNewBridgeToken(this.symbol, { from: operator })
+
+      address = address.logs[0].address;
+      console.log("Address of new bridge token address", address)
+
+      this.token = await BridgeToken.at(address);
+      this.amount = 100;
+
+      console.log("Operator address in bridgeBank: ", await this.bridgeBank.operator())
+      console.log("Operator address: ", operator)
+      // Add the token into white list
+      // await this.bridgeBank.updateWhiteList(this.token.address, true, {
+      //   from: operator
+      // }).should.be.fulfilled;        
+  
+    });
+
+    it("should create eRowan mock and connect it to the cosmos bridge with admin API", async function () {
+      const symbol = "eRowan"
+      const token = await BridgeToken.new(symbol);
+      
+      // Attempt to lock tokens
+      await this.bridgeBank.addExistingBridgeToken(
+        symbol,
+        token.address, {
+          from: operator,
+        }
+      ).should.be.fulfilled;
+
+      const tokenAddress = await this.bridgeBank.getBridgeToken(symbol);
+      tokenAddress.should.be.equal(token.address);
+    });
+
+    it("should use bridgebank's createNewBridgeToken function to create a new bridge token", async function () {
+      const symbol = "cUSD"
+      
+      // Attempt to lock tokens
+      const address = await this.bridgeBank.createNewBridgeToken(
+        symbol, { from: operator }
+      ).should.be.fulfilled;
+      const tokenAddress = await this.bridgeBank.getBridgeToken(symbol);
+      tokenAddress.should.be.equal(address.logs[0].args._token);
+    });
+  });
+
   describe("Ethereum/ERC20 token unlocking (for burned Cosmos assets)", function () {
     beforeEach(async function () {
       // Deploy Valset contract
@@ -465,7 +552,8 @@ contract("BridgeBank", function (accounts) {
       this.bridgeBank = await BridgeBank.new(
         operator,
         this.oracle.address,
-        this.cosmosBridge.address
+        this.cosmosBridge.address,
+        operator
       );
 
       // Operator sets Oracle

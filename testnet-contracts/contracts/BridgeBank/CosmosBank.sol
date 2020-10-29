@@ -121,6 +121,25 @@ contract CosmosBank {
         return newBridgeTokenAddress;
     }
 
+   /*
+     * @dev: Deploys a new BridgeToken contract
+     *
+     * @param _symbol: The BridgeToken's symbol
+     */
+    function useExistingBridgeToken(string memory _symbol, address _contractAddress)
+        internal
+        returns (address)
+    {
+        bridgeTokenCount = bridgeTokenCount.add(1);
+
+        // Set address in tokens mapping
+        address newBridgeTokenAddress = _contractAddress;
+        controlledBridgeTokens[_symbol] = newBridgeTokenAddress;
+
+        emit LogNewBridgeToken(newBridgeTokenAddress, _symbol);
+        return newBridgeTokenAddress;
+    }
+
     /*
      * @dev: Mints new cosmos tokens
      *
