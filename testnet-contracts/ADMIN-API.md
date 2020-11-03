@@ -7,3 +7,5 @@
 2. You will need to set the BridgeBank contract as an admin and minter role so that it can mint new tokens when assets are locked on the sifchain side.
 
 3. Call the function addExistingBridgeToken on BridgeBank and pass the address of eRowan as the first parameter.
+
+4. Whenever you make a new prophecy claim for rowan, you will need to pass the symbol eRowan as a parameter, otherwise it will mess create a new token when it should not.
