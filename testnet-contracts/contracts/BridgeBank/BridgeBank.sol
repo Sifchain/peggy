@@ -105,10 +105,9 @@ contract BridgeBank is CosmosBank, EthereumBank, WhiteList {
      * @return: The new BridgeToken contract's address
      */
     function addExistingBridgeToken(
-        string memory _symbol,
         address _contractAddress
     ) public onlyOwner returns (address) {
-        return useExistingBridgeToken(_symbol, _contractAddress);
+        return useExistingBridgeToken(_contractAddress);
     }
 
 
