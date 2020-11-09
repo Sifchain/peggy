@@ -86,7 +86,6 @@ yarn peggy:getTokenBalance  0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4 eth
 check contract eth balance after claim finalized
 yarn peggy:getTokenBalance  0xf17f52151EbEF6C7334FAD080c5704D77216b732 eth
 
-
 ### case 3: issue 1 atom in ethereum send to 0xf17f52151EbEF6C7334FAD080c5704D77216b732
 1. claim of cosmos asset lock happend in ethereum
 truffle  exec scripts/sendProphecyClaimLock.js
