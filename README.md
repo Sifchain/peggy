@@ -9,6 +9,8 @@
 
 > :warning: :warning: **WARNING: This bridge is not production ready.**
 
+> NOTE: This repo will NOT be used for Sifchain's mainnet at launch.  As per [Sifnode ADR 001](https://github.com/Sifchain/sifnode/blob/develop/docs/adr-001-peggy-with-sifnode.md) Sifchain will deploy Peggy directly onto Sifnode until IBC is production-ready at which point Peggy will be deployed onto a separate peg zone blockchain.
+
 
 ## Introduction
 
