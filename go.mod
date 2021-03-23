@@ -24,8 +24,7 @@ require (
 	github.com/stretchr/testify v1.6.1
 	github.com/tendermint/go-amino v0.16.0
 	github.com/tendermint/tendermint v0.33.8
-	github.com/tendermint/tm-db v0.5.1
+	github.com/tendermint/tm-db v0.6.2
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/urfave/cli.v1 v1.20.0 // indirect
 )
-
