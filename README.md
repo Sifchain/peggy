@@ -1,3 +1,5 @@
+| :exclamation: | The development of Peggy has been merged into the main Sifnode repo located at https://github.com/Sifchain/sifnode; follow the main Sifnode repository for the latest changes. This repository has been frozen and will soon be replaced with the new peg zone implementation of peggy, which Sifchain remains committed to implementing.| :exclamation: |
+|-|---------------------------------------------------------------------------------------------------------------------------------------------------------|-|
 # Peggy
 
 [![version](https://img.shields.io/github/tag/sifchain/peggy.svg)](https://github.com/sifchain/peggy/releases/latest)
