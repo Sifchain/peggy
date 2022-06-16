@@ -1,5 +1,5 @@
 ## Setup Peggy locally
-
+:warning: :warning: **WARNING: THIS DOCUMENTATION IS DEPRECATED**
 Peggy uses Truffle for running a local Ethereum blockchain which you can deploy the contracts to for testing.
 
 Note: Truffle is currently incompatible with node v14 because of a bug in ganache - see [here](trufflesuite/ganache-cli#732). Until the issue is resolved, we recommend any prior stable version of node (such as v10.16.3).
