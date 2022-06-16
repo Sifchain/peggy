@@ -1,4 +1,5 @@
 ## Ethereum -> Cosmos asset transfers
+> :warning: :warning: **WARNING: THIS DOCUMENTATION IS DEPRECATED**
 
 ### Sending Ethereum assets to Cosmos via Lock
 
