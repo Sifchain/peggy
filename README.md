@@ -1,5 +1,8 @@
 # Peggy
 
+:warning: :warning: **WARNING: THIS DOCUMENTATION IS DEPRECATED**
+Further documentation will be released on Peggy 2.0
+
 [![version](https://img.shields.io/github/tag/sifchain/peggy.svg)](https://github.com/sifchain/peggy/releases/latest)
 [![CircleCI](https://circleci.com/gh/sifchain/peggy/tree/master.svg?style=svg)](https://circleci.com/gh/sifchain/peggy/tree/master)
 ![Go Tests](https://github.com/sifchain/peggy/workflows/test%20coverage/badge.svg)
@@ -8,6 +11,7 @@
 [![API Reference](https://godoc.org/github.com/sifchain/peggy?status.svg)](https://godoc.org/github.com/sifchain/peggy)
 
 > :warning: :warning: **WARNING: This bridge is not production ready.**
+
 
 > NOTE: This repo will NOT be used for Sifchain's mainnet at launch.  As per [Sifnode ADR 001](https://github.com/Sifchain/sifnode/blob/develop/docs/adr-001-peggy-with-sifnode.md) Sifchain will deploy Peggy directly onto Sifnode until IBC is production-ready at which point Peggy will be deployed onto a separate peg zone blockchain.
 
