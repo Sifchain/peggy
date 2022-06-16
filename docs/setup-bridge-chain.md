@@ -1,5 +1,5 @@
 ## Initialization
-
+:warning: :warning: **WARNING: THIS DOCUMENTATION IS DEPRECATED**
 First, initialize a chain and create accounts:
 
 ```bash
